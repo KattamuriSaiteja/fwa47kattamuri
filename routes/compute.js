@@ -1,38 +1,20 @@
 var express = require('express');
-
 var router = express.Router();
-
-
-/* GET users listing. */
-
+var storeValue;
+/* GET home page. */
 router.get('/', function (req, res, next) {
-
     fake_url = "https://fake.com/path" + req.url
-
     const url = new URL(fake_url)
-
     const search_params = url.searchParams
-
-    if (req.method === 'GET') {
-
-        vl = search_params.get("x")
-
-        if (vl === null) {
-
-            vl = Math.round(Math.random() * 1000);
-
-        }
-
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-
-        res.write('Math.fround() applied to ' + vl + ' is ' + Math.fround(vl))
-
-        res.write('<br/>Math.random() applied to ' + vl + ' is ' + Math.random(vl))
-
-        res.write('<br/>Math.round() applied to ' + vl + ' is ' + Math.round(vl))
-
-        res.end()
-
-    }
-
+    storeValue = Number(search_params.get("x"))
+    // if paramter is not specified  value of Number(search_params.get("x")) is always zero
+    //console.log(Number(search_params.get("x"))+"hello")
+    if (storeValue == 0)
+        storeValue = Math.random()
+    res.write("Computes the values for Math.log2 and math.cosh function." + "\n")
+    res.write('Math.log2 applied to ' + storeValue + " is " + Math.log2(storeValue) + "\n");
+    res.write('Math.cosh applied to ' + storeValue + " is " + Math.cosh(storeValue) + "\n");
+    res.end('Math.floor applied to ' + storeValue + " is " + Math.floor(storeValue));
 });
+
+module.exports = router;
